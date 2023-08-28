@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
 
     <meta charset="utf-8">
     <title>Sliced Colorspace Picker</title>
@@ -190,8 +190,11 @@
         }, { passive: false });
 
         document.addEventListener('touchmove', function (e) {
-            e.preventDefault();
-            if (dragging) pick(undefined, undefined, e.touches[0]);
+            if (dragging){
+                e.preventDefault();
+                pick(undefined, undefined, e.touches[0]);
+            } 
+
         }, { passive: false });
 
         // document.querySelector("#cs3").addEventListener('touchmove', function (e) {
