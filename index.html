@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5, user-scalable=no">
+
     <meta charset="utf-8">
     <title>Sliced Colorspace Picker</title>
     <link rel="icon" type="image/x-icon" href="./favicon.png">
@@ -136,7 +138,7 @@
     <script src="./copy_logic.js"></script>
     <script>
         d3.select("#cdesc").html(theCDesc[theSpace]);
-        var theSize = 350;
+        var theSize = 335;
 
         // set theSize as a css variable
         document.documentElement.style.setProperty('--theSize', theSize + "px");
@@ -160,11 +162,46 @@
             // d3.select("#rb-hsv").on("click", function () { radio("HSV"); });
             d3.select("#mouse").on("touchstart", pick);
         });
-        document.querySelector("#invisibleCircle").onmousedown = function (e) { dragging = true; pick(undefined, undefined, e); };
-        document.querySelector("#cs3").onmousedown = function () { cameraSpinRate = 0;  window.gamutRenderer.cameraSpinRate = 0; };
-        document.onmouseup = function () { dragging = false; cameraSpinRate = 0.0025; window.gamutRenderer.cameraSpinRate = 0.0025;}
-        document.onmousemove = function (e) { if (dragging) pick(undefined, undefined, e); };
+        // For Desktop
+        document.querySelector("#invisibleCircle").onmousedown = function (e) {
+            dragging = true;
+            pick(undefined, undefined, e);
+        };
+        document.onmouseup = function () {
+            dragging = false;
+            cameraSpinRate = 0.0025;
+            window.gamutRenderer.cameraSpinRate = 0.0025;
+        };
+        document.onmousemove = function (e) {
+            if (dragging) pick(undefined, undefined, e);
+        };
 
+        // For Mobile
+        document.querySelector("#invisibleCircle").addEventListener('touchstart', function (e) {
+            e.preventDefault();
+            dragging = true;
+            pick(undefined, undefined, e.touches[0]);
+        }, { passive: false });
+
+        document.addEventListener('touchend', function () {
+            dragging = false;
+            cameraSpinRate = 0.0025;
+            window.gamutRenderer.cameraSpinRate = 0.0025;
+        }, { passive: false });
+
+        document.addEventListener('touchmove', function (e) {
+            e.preventDefault();
+            if (dragging) pick(undefined, undefined, e.touches[0]);
+        }, { passive: false });
+
+        // document.querySelector("#cs3").addEventListener('touchmove', function (e) {
+        //     // e.preventDefault();
+        // }, { passive: false });
+
+
+
+
+        document.querySelector("#cs3").onmousedown = function () { cameraSpinRate = 0; window.gamutRenderer.cameraSpinRate = 0; };
         document.querySelector("#cs3").style.width = theSize + "px"
         d3.select("#invisibleCircle").attr("r", 0.95 * (theSize / 2));
 

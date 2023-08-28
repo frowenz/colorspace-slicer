@@ -207,8 +207,8 @@ function pick(_ii, _jj, e) {
     var ii, jj;
     if (typeof _ii == 'undefined' || typeof _jj == 'undefined') {
         var rect = theCanvas.getBoundingClientRect();
-        ii = event.clientX - rect.left;
-        jj = event.clientY - rect.top;
+        ii = e.clientX - rect.left;  // Changed from event.clientX
+        jj = e.clientY - rect.top;   // Changed from event.clientY
     } else {
         ii = _ii;
         jj = _jj;

@@ -157,7 +157,6 @@ h1 {
     display: none;
 }
 
-
 @media only screen and (max-width: 1200px) {
     #threeCanvasContainer {
         display: none;
@@ -172,3 +171,21 @@ h1 {
         align-items: unset;
     }
 }
+
+@media only screen and (max-width: 496px) {
+    h1 {
+        font-size: 25px;
+    }
+
+    body {
+        margin: 5px !important;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+
+    h1 {
+        font-size: 22px;
+    }
+}
+
