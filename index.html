@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Sliced Colorspace Picker</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="track.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r95/build/three.min.js"></script>
+    <script src="https://cs.wellesley.edu/~cs307/threejs/libs/OrbitControls-r95.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r95/examples/js/Detector.js"></script>
+    <script src="./color-analysis-logic.js"></script>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="text/javascript" src="slider.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Franklin&family=Lora:wght@400;700&family=Source+Code+Pro:ital,wght@0,500;1,300&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div>
+        <h1>Sliced Colorspace Color Picker</h1>
+
+        <div id="canvas-formatter">
+            <div id="canvas-container">
+                <input id="cs3" type="range" min="0.0001" max="99.9" step="0.01">
+
+                <svg id="_gray" style="position: absolute;">
+                    <g id="gray" transform="translate(0,0)">
+                        <circle id="invisibleCircle" cx="0" cy="0" stroke-width="2" stroke="none" fill="transparent" />
+                        <line x1="2" y1="2" x2="3" y2="3" stroke-width="2" stroke="white" />
+                        <line x1="-2" y1="-2" x2="-3" y2="-3" stroke-width="2" stroke="white" />
+                        <line x1="-2" y1="2" x2="-3" y2="3" stroke-width="2" stroke="white" />
+                        <line x1="2" y1="-2" x2="3" y2="-3" stroke-width="2" stroke="white" />
+                        <line x1="0" y1="2.7" x2="0" y2="4.4" stroke-width="2" stroke="black" />
+                        <line x1="0" y1="-2.7" x2="0" y2="-4.4" stroke-width="2" stroke="black" />
+                        <line x1="2.7" y1="0" x2="4.4" y2="0" stroke-width="2" stroke="black" />
+                        <line x1="-2.7" y1="0" x2="-4.4" y2="0" stroke-width="2" stroke="black" />
+                    </g>
+                </svg>
+                <svg id="_xhair" style="position: absolute;">
+                    <g id="xhair" transform="translate(0,0)">
+                        <circle cx="0" cy="0" r="5" stroke-width="1" stroke="white" fill="none" />
+                        <circle cx="0" cy="0" r="6" stroke-width="1" stroke="black" fill="none" />
+                    </g>
+                </svg>
+                <canvas id="theCanvas">Your browser does not support the HTML5 canvas tag.</canvas>
+            </div>
+
+            <div id="text-container">
+                <div class="flexRow">
+                    <div id=" out">
+                        <svg id="_outRect">
+                            <rect id="outRect"></rect>
+                        </svg>
+                        <div id="outText"></div>
+                    </div>
+
+                    <div id="currentValues">
+                        <div class="flexRow">
+                            <svg class="clickable" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" style="fill: rgb(118, 118, 118);">
+                                <path
+                                    d="M20 2H10c-1.103 0-2 .897-2 2v4H4c-1.103 0-2 .897-2 2v10c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2v-4h4c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM4 20V10h10l.002 10H4zm16-6h-4v-4c0-1.103-.897-2-2-2h-4V4h10v10z">
+                                </path>
+                            </svg>
+                            &nbsp;
+                            <span id="rgbVal">rgb(0,0,0)</span>
+                        </div>
+                        <div class="flexRow">
+                            <svg class="clickable" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" style="fill: rgb(118, 118, 118);">
+                                <path
+                                    d="M20 2H10c-1.103 0-2 .897-2 2v4H4c-1.103 0-2 .897-2 2v10c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2v-4h4c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM4 20V10h10l.002 10H4zm16-6h-4v-4c0-1.103-.897-2-2-2h-4V4h10v10z">
+                                </path>
+                            </svg>
+                            &nbsp;
+                            <span id="hslVal">hsl(0,0,0)</span>
+                        </div>
+                        <div class="flexRow">
+                            <svg class="clickable" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" style="fill: rgb(118, 118, 118);">
+                                <path
+                                    d="M20 2H10c-1.103 0-2 .897-2 2v4H4c-1.103 0-2 .897-2 2v10c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2v-4h4c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM4 20V10h10l.002 10H4zm16-6h-4v-4c0-1.103-.897-2-2-2h-4V4h10v10z">
+                                </path>
+                            </svg>
+                            &nbsp;
+                            <span id="hclVal">hcl(0,0,0)</span>
+                        </div>
+                        <div class="flexRow">
+                            <svg class="clickable" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" style="fill: rgb(118, 118, 118);">
+                                <path
+                                    d="M20 2H10c-1.103 0-2 .897-2 2v4H4c-1.103 0-2 .897-2 2v10c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2v-4h4c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM4 20V10h10l.002 10H4zm16-6h-4v-4c0-1.103-.897-2-2-2h-4V4h10v10z">
+                                </path>
+                            </svg>
+                            &nbsp;
+                            <span id="hexVal">#ffffff</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="color-picker">
+                    <div>
+                        <input type="radio" id="rb-drgb" name="color-space" value="dRGB" checked="checked">
+                        <label for="rb-drgb">RGB: &nbsp; red-green-blue</label><br>
+                    </div>
+                    <div>
+                        <input type="radio" id="rb-hsl" name="color-space" value="HSL">
+                        <label for="rb-hsl">HSL: &nbsp; hue-saturation-lightness</label><br>
+                    </div>
+                    <div>
+                        <input type="radio" id="rb-hcl" name="color-space" value="HCL">
+                        <label for="rb-hcl">HCL: &nbsp; hue-chroma-perceptual-luminance</label><br>
+                    </div>
+
+                    <div id="t3">
+                        <input type="text" id="tx3">
+                        &nbsp;=&nbsp;
+                        <label for="tx3" id="tl3">lightness * 100</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="threeCanvasContainer">
+                <button id="shapeToggle">Show Shape</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./copy_logic.js"></script>
+    <script>
+        d3.select("#cdesc").html(theCDesc[theSpace]);
+        var theSize = 350;
+
+        // set theSize as a css variable
+        document.documentElement.style.setProperty('--theSize', theSize + "px");
+
+        var theCanvas = document.getElementById("theCanvas");
+
+        var dragging = false;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            setColorSlider();
+            setColorText();
+            d3.select("#cs3").on("input", function () {
+                inputColorSlider(), handleSliderChange()
+            });
+
+
+            d3.select("#tx3").on("change", inputColorText);
+            d3.select("#rb-drgb").on("click", function () { radio("dRGB"); handleModeChange(); });
+            d3.select("#rb-hsl").on("click", function () { radio("HSL"); handleModeChange(); });
+            d3.select("#rb-hcl").on("click", function () { radio("HCL"); handleModeChange(); });
+            // d3.select("#rb-hsv").on("click", function () { radio("HSV"); });
+            d3.select("#mouse").on("touchstart", pick);
+        });
+        document.querySelector("#invisibleCircle").onmousedown = function (e) { dragging = true; pick(undefined, undefined, e); };
+        document.querySelector("#cs3").onmousedown = function () { cameraSpinRate = 0;  window.gamutRenderer.cameraSpinRate = 0; };
+        document.onmouseup = function () { dragging = false; cameraSpinRate = 0.0025; window.gamutRenderer.cameraSpinRate = 0.0025;}
+        document.onmousemove = function (e) { if (dragging) pick(undefined, undefined, e); };
+
+        document.querySelector("#cs3").style.width = theSize + "px"
+        d3.select("#invisibleCircle").attr("r", 0.95 * (theSize / 2));
+
+        d3.select("#theCanvas").attr("width", theSize).attr("height", theSize);
+        document.querySelector("#canvas-container").style.width = theSize + "px"
+        document.querySelector("#canvas-container").style.height = theSize + "px"
+
+
+        d3.select("#_xhair").attr("width", theSize).attr("height", theSize)
+        d3.select("#_gray").attr("width", theSize).attr("height", theSize)
+        d3.select("#gray").attr("transform", "translate(" + theSize / 2 + "," + theSize / 2 + ")");
+        var theContext = theCanvas.getContext("2d");
+        var theImage = theContext.createImageData(theSize, theSize);
+        pick(theSize / 2, theSize / 2);
+        refreshCanvas();
+        d3.select("#_outRect").attr("width", 132).attr("height", 132)
+        d3.select("#outRect").attr("width", 132).attr("height", 132)
+
+    </script>
+    <script src="./scene_handler.js"></script>
+    <script src="./rgbcube.js"></script>
+    <script src="./hsldoublecone.js"></script>
+    <script src="./gamut.js"></script>
+    <script>
+        // Slider and Colorspace changing handling
+        function handleModeChange() {
+            if (theSpace == 'HCL') {
+                gamutCanvas.style.display = "flex";
+                threeCanvas.style.display = "none";
+                gamutView.animate();
+            }
+            else {
+                gamutCanvas.style.display = "none";
+                threeCanvas.style.display = "flex";
+                animate();
+            }
+        }
+
+        function handleSliderChange() {
+            if (theSpace == 'dRGB') {
+                updateRGB()
+            }
+            else if (theSpace == 'HSL') {
+                updateHSL()
+            }
+            else if (theSpace == 'HCL') {
+                updateHCL()
+            }
+        }
+
+        const shapeToggle = document.getElementById("shapeToggle");
+        var isShapeVisible = false;
+        shapeToggle.addEventListener("click", function () {
+            isShapeVisible = !isShapeVisible;
+            handleRGBShape(isShapeVisible)
+            handleHSLShape(isShapeVisible)
+            handleHCLShape(isShapeVisible)
+        });
+
+        // Animation Loop
+        var theta = 0;
+        var cameraSpinRate = 0.005;
+
+        function animate() {
+            theta += cameraSpinRate;
+            camera.position.x = 50 * Math.sin(theta);
+            camera.position.z = 50 * Math.cos(theta);
+            camera.lookAt(new THREE.Vector3(0, longDiagonal / 2, 0)); // Look at the center of the scene
+
+            if (theSpace == "dRGB") {
+                renderer.render(rgbScene, camera);
+                drawIntersectionPoints();
+            } else if (theSpace == "HSL") {
+                renderer.render(hslScene, camera);
+            }
+            else {
+                return
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+    </script>
+</body>
+
+</html>

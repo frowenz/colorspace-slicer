@@ -1,0 +1,174 @@
+/* Global Styles */
+body {
+    background-color: #ddd;
+    font-family: "Libre Franklin", sans-serif;
+    margin: 25px !important;
+    height: calc(100vh - 50px);
+}
+
+h1 {
+    color: rgb(40, 40, 40);
+    font-family: Helvetica, sans-serif;
+    font-size: 30px;
+}
+
+/* Utility Classes */
+.clickable {
+    cursor: pointer;
+}
+
+.clickable:hover {
+    fill: rgb(86, 86, 86) !important;
+}
+
+.clickable:active {
+    fill: rgb(150, 150, 150) !important;
+}
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Element-specific Styles */
+#currentValues {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;
+    grid-gap: 5px;
+}
+
+#cdesc {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+#canvas-formatter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    grid-gap: calc(var(--relative-unit) * 12.5);
+}
+
+#color-picker {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+#canvas-container {
+    margin-left: calc(50 * var(--relative-unit));
+}
+
+#text-container {
+    box-sizing: border-box;
+    height: var(--theSize);
+    width: calc(var(--theSize));
+    padding-top: 20px;
+    padding-left: 12.5px;
+}
+
+#t3 {
+    display: flex;
+    align-items: center;
+    margin: 3px;
+    margin-top: 10px;
+    height: 40px;
+}
+
+#out {
+    height: 135PX;
+    width: 135px;
+    overflow: hidden;
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+#_outRect {
+    border: 1.5px solid rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+/* Miscellaneous Elements */
+#_gray, #_gray * {
+    pointer-events: none;
+}
+
+#_gray {
+    z-index: 1;
+}
+
+#invisibleCircle {
+    cursor: crosshair;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+#cs3, #gs {
+    margin: 0px;
+}
+
+#tx3 {
+    width: 38px;
+}
+
+#color-slider {
+    position: absolute;
+}
+
+.fraction {
+    display: inline-block;
+    text-align: center;
+}
+
+.numerator {
+    display: block;
+    border-bottom: 1px solid black;
+}
+
+.denominator {
+    display: block;
+}
+
+.division {
+    display: none;
+}
+
+#shapeToggle {
+    float: right;
+    position: absolute;
+}
+
+#threeCanvasContainer {
+    display: flex;
+    justify-content: flex-end;
+    width: 350px;
+    height: 350px;
+}
+
+#gamutCanvas {
+    display: none;
+}
+
+
+@media only screen and (max-width: 1200px) {
+    #threeCanvasContainer {
+        display: none;
+    }
+}
+
+/* Media Queries */
+@media only screen and (max-width: 800px) {
+    #canvas-formatter {
+        flex-direction: column;
+        justify-content: unset;
+        align-items: unset;
+    }
+}
