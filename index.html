@@ -2,26 +2,31 @@
 <html lang="en">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
-
-    <meta charset="utf-8">
     <title>Sliced Colorspace Picker</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
     <link rel="icon" type="image/x-icon" href="./favicon.png">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="track.css">
 
-    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r95/build/three.min.js"></script>
-    <script src="https://cs.wellesley.edu/~cs307/threejs/libs/OrbitControls-r95.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r95/examples/js/Detector.js"></script>
-    <script src="./color-analysis-logic.js"></script>
-
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script type="text/javascript" src="slider.js"></script>
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Libre+Franklin&family=Lora:wght@400;700&family=Source+Code+Pro:ital,wght@0,500;1,300&display=swap"
         rel="stylesheet">
+
+    <!-- Three.js and D3.js -->
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r95/build/three.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r95/examples/js/Detector.js"></script>
+    <script src="./javascript/orbit-controls.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <script type="text/javascript" src="./javascript/color-analysis-logic.js"></script>
+    <script type="text/javascript" src="./javascript/slider.js"></script>
+
 </head>
 
 <body>
@@ -135,7 +140,7 @@
         </div>
     </div>
 
-    <script src="./copy_logic.js"></script>
+    <script src="./javascript/copy-logic.js"></script>
     <script>
         d3.select("#cdesc").html(theCDesc[theSpace]);
         var theSize = 335;
@@ -154,7 +159,6 @@
                 inputColorSlider(), handleSliderChange()
             });
 
-
             d3.select("#tx3").on("change", inputColorText);
             d3.select("#rb-drgb").on("click", function () { radio("dRGB"); handleModeChange(); });
             d3.select("#rb-hsl").on("click", function () { radio("HSL"); handleModeChange(); });
@@ -162,6 +166,7 @@
             // d3.select("#rb-hsv").on("click", function () { radio("HSV"); });
             d3.select("#mouse").on("touchstart", pick);
         });
+
         // For Desktop
         document.querySelector("#invisibleCircle").onmousedown = function (e) {
             dragging = true;
@@ -197,21 +202,13 @@
 
         }, { passive: false });
 
-        // document.querySelector("#cs3").addEventListener('touchmove', function (e) {
-        //     // e.preventDefault();
-        // }, { passive: false });
-
-
-
-
+        d3.select("#invisibleCircle").attr("r", 0.95 * (theSize / 2));
         document.querySelector("#cs3").onmousedown = function () { cameraSpinRate = 0; window.gamutRenderer.cameraSpinRate = 0; };
         document.querySelector("#cs3").style.width = theSize + "px"
-        d3.select("#invisibleCircle").attr("r", 0.95 * (theSize / 2));
 
         d3.select("#theCanvas").attr("width", theSize).attr("height", theSize);
         document.querySelector("#canvas-container").style.width = theSize + "px"
         document.querySelector("#canvas-container").style.height = theSize + "px"
-
 
         d3.select("#_xhair").attr("width", theSize).attr("height", theSize)
         d3.select("#_gray").attr("width", theSize).attr("height", theSize)
@@ -224,10 +221,11 @@
         d3.select("#outRect").attr("width", 132).attr("height", 132)
 
     </script>
-    <script src="./scene_handler.js"></script>
-    <script src="./rgbcube.js"></script>
-    <script src="./hsldoublecone.js"></script>
-    <script src="./gamut.js"></script>
+
+    <script src="./javascript/scene-handler.js"></script>
+    <script src="./javascript/rgbcube.js"></script>
+    <script src="./javascript/hsldoublecone.js"></script>
+    <script src="./javascript/gamut.js"></script>
     <script>
         // Slider and Colorspace changing handling
         function handleModeChange() {
@@ -264,7 +262,7 @@
             handleHCLShape(isShapeVisible)
         });
 
-        // Animation Loop
+        // Animation Loop for RGB Cube and HSL Cone
         var theta = 0;
         var cameraSpinRate = 0.005;
 
