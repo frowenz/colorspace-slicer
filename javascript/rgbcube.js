@@ -1,4 +1,3 @@
-
 // GNU public license
 const rgbScene = new THREE.Scene();
 rgbScene.background = new THREE.Color("#dddddd");
@@ -11,7 +10,7 @@ const plane = new THREE.Mesh(planeGeometry, planeMaterial);
 plane.position.y = 0.5 * longDiagonal;
 rgbScene.add(plane);
 
-// Your custom vertices
+// Custom vertices
 var vertices = [
     0.0, 0.0, 0.0,
     0.788675135, 0.577350269, -0.211324865,

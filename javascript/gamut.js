@@ -39,7 +39,7 @@ const gamutCanvas = document.getElementById('threeCanvasContainer').children[2];
 gamutCanvas.id = "gamutCanvas"
 
 // Create gamutPlane
-const gamutPlaneGeometry = new THREE.CircleGeometry(1.5, 20);
+const gamutPlaneGeometry = new THREE.CircleGeometry(1.4, 20);
 gamutPlaneGeometry.rotateX(-Math.PI / 2);
 const gamutPlaneMaterial = new THREE.MeshBasicMaterial({ color: "black", transparent: true, opacity: 0.25, side: THREE.DoubleSide });
 const gamutPlane = new THREE.Mesh(gamutPlaneGeometry, gamutPlaneMaterial);
@@ -47,11 +47,11 @@ gamutPlane.position.y = 0.5;
 
 gamutView.scene.add(gamutPlane);
 gamutObject = gamutView.addPrimaryColourspaceVisual();
-// console.log(gamutObject)
+
+// gamutObject.scale.y = 2; 
 
 gamutView.primaryColourspaceVisual.uniformOpacity = 0.8;
 gamutView.primaryColourspaceVisual.wireframe = true
-gamutView.animate();
 
 let gamutIntersectionPoints = [];
 let gamutPointsOfIntersection = new THREE.Geometry();
@@ -94,13 +94,17 @@ const checkInterval = setInterval(() => {
     if (!gamutObject._loading) { // Replace with actual reference
         clearInterval(checkInterval); // Stop checking
         gamutGeometry = gamutObject._visual.geometry
+        for (let i = 1; i < gamutGeometry.attributes.position.array.length; i += 3) { // Starting from 1 as y is at every 3rd position
+            gamutGeometry.attributes.position.array[i] -= 0.25; // Scale the y coordinate by 2
+            gamutGeometry.attributes.position.array[i] *= 2; // Scale the y coordinate by 2
+        }
+        gamutView.animate();
         drawGamutgamutIntersectionPoints();
     }
 }, 500); // Check every 100 milliseconds
 
 function handleHCLShape(isShapeVisible) {
-    if (isShapeVisible)
-    {
+    if (isShapeVisible) {
         gamutView.primaryColourspaceVisual.wireframe = false
     }
     else {
@@ -108,7 +112,7 @@ function handleHCLShape(isShapeVisible) {
     }
 }
 
-function updateHCL () {
-    gamutPlane.position.y = cs3.value / cs3.max 
+function updateHCL() {
+    gamutPlane.position.y = 2 * (cs3.value / cs3.max) - 0.5
     drawGamutgamutIntersectionPoints();
 }

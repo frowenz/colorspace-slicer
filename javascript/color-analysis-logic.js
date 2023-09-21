@@ -423,7 +423,8 @@ ColourAnalysis = (() => {
             class y extends g {
                 constructor(e, t) {
                     super(e, i()({ name: "colourspace-visual" }, t || {})),
-                        (this._colourspace = t.colourspace || "sRGB"),
+                        // (this._colourspace = t.colourspace || "sRGB"),
+                        (this._colourspace = t.colourspace || "Adobe"),
                         (this._colourspaceModel = t.colourspaceModel || "CIE Lab"),
                         (this._segments = t.segments || 16),
                         (this._uniformColour = t.uniformColour || void 0),

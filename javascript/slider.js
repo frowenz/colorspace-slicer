@@ -1,6 +1,8 @@
+// Copyright (C) 2023 University of Chicago. All rights reserved.
+
 var isMouseDown = false;
 var theColor;
-var theSpace = "dRGB"; // HEY: reflects initialization in index.html
+var theSpace = "dRGB";
 var theMaxChroma = 135;
 var theMaxSat = 1.05;
 var theMaxRadius = 0.84;

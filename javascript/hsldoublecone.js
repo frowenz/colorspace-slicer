@@ -1,8 +1,10 @@
+// Copyright (C) 2023 Owen Fahey. All rights reserved.
+
 // Global Variables
 const hslScene = new THREE.Scene();
 hslScene.background = new THREE.Color("#dddddd");
 
-// orbit
+// Orbit
 const orbit = new THREE.OrbitControls(camera, renderer.domElement);
 
 var currentShape = 'lines';
@@ -53,7 +55,6 @@ function cleanUpOutlines() {
     outlineObjects.forEach(obj => hslScene.remove(obj));
     outlineObjects = [];
 }
-
 
 var topCone;
 var bottomCone;
