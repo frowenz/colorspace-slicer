@@ -233,7 +233,7 @@ function pick(_ii, _jj, e) {
     document.querySelector("#rgbVal").innerHTML = rgb;
     document.querySelector("#hslVal").innerHTML = "hsl(" + Math.round(hsq.h) + ", " + Math.round(hsq.s * 100) + "%, " + Math.round(hsq.l * 100) + "%)";
     document.querySelector("#hexVal").innerHTML = rgbToHex(rgb)
-    document.querySelector("#hclVal").innerHTML = "hcl(" + Math.round(hcl.h) + ", " + Math.round(hcl.c) + ", " + Math.round(hcl.l) + ")";
+    document.querySelector("#hclVal").innerHTML = "lch(" + Math.round(hcl.h) + ", " + Math.round(hcl.c) + "%, " + Math.round(hcl.l) + ")";
 
     theColor = rgb;
 }
