@@ -19,11 +19,11 @@
         rel="stylesheet">
 
     <!-- Three.js and D3.js -->
-    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r95/build/three.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r95/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r95/examples/js/Detector.js"></script>
     <script src="./javascript/orbit-controls.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    
+
     <script type="text/javascript" src="./javascript/color-analysis-logic.js"></script>
     <script type="text/javascript" src="./javascript/slider.js"></script>
 
@@ -129,13 +129,26 @@
                     <div id="t3">
                         <input type="text" id="tx3">
                         &nbsp;=&nbsp;
-                        <label for="tx3" id="tl3">lightness * 100</label>
+                        <label for="tx3" id="tl3">
+                            &nbsp;
+                            <span class="fraction">
+                                <span class="numerator">mean(R,G,B) * 100</span>
+                                <span class="division">/</span>
+                                <span class="denominator">255</span>
+                            </span>
+                        </label>
                     </div>
+
+
                 </div>
             </div>
 
+
             <div id="threeCanvasContainer">
-                <button id="shapeToggle">Show Shape</button>
+                <div id = "threeButtonContainer">
+                    <button id="shapeToggle">Show Faces</button>
+                    <button id="pauseToggle">⏸︎</button>
+                </div>
             </div>
         </div>
     </div>
@@ -143,7 +156,7 @@
     <script src="./javascript/copy-logic.js"></script>
     <script>
         // Copyright (C)  2023 University of Chicago. All rights reserved.
-        
+
         d3.select("#cdesc").html(theCDesc[theSpace]);
         var theSize = 335;
 
@@ -176,31 +189,35 @@
         };
         document.onmouseup = function () {
             dragging = false;
-            cameraSpinRate = 0.0025;
-            window.gamutRenderer.cameraSpinRate = 0.0025;
+            if (!isPaused){
+                cameraSpinRate = 0.0025;
+                window.gamutRenderer.cameraSpinRate = 0.0025;
+            }
         };
         document.onmousemove = function (e) {
             if (dragging) pick(undefined, undefined, e);
         };
-
+        
         // For Mobile
         document.querySelector("#invisibleCircle").addEventListener('touchstart', function (e) {
             e.preventDefault();
             dragging = true;
             pick(undefined, undefined, e.touches[0]);
         }, { passive: false });
-
+        
         document.addEventListener('touchend', function () {
             dragging = false;
-            cameraSpinRate = 0.0025;
-            window.gamutRenderer.cameraSpinRate = 0.0025;
-        }, { passive: false });
-
+            if (!isPaused){
+                cameraSpinRate = 0.0025;
+                window.gamutRenderer.cameraSpinRate = 0.0025;
+            }
+            }, { passive: false });
+            
         document.addEventListener('touchmove', function (e) {
-            if (dragging){
+            if (dragging) {
                 e.preventDefault();
                 pick(undefined, undefined, e.touches[0]);
-            } 
+            }
 
         }, { passive: false });
 
@@ -229,17 +246,24 @@
     <script src="./javascript/hsldoublecone.js"></script>
     <script src="./javascript/gamut.js"></script>
     <script>
+
+        // This is used to prevent multiple animate loops from running
+        var isAnimating = true
+
         // Slider and Colorspace changing handling
         function handleModeChange() {
             if (theSpace == 'HCL') {
                 gamutCanvas.style.display = "flex";
                 threeCanvas.style.display = "none";
-                gamutView.animate();
+                isAnimating = false
             }
             else {
                 gamutCanvas.style.display = "none";
                 threeCanvas.style.display = "flex";
-                animate();
+                if (!isAnimating) {
+                    animate();
+                }
+                isAnimating = true
             }
         }
 
@@ -264,9 +288,25 @@
             handleHCLShape(isShapeVisible)
         });
 
+        const pauseToggle = document.getElementById("pauseToggle");
+        var isPaused = false;
+        pauseToggle.addEventListener("click", function () {
+            isPaused = !isPaused;
+            if (isPaused) {
+                pauseToggle.innerHTML = "⏵"
+                cameraSpinRate = 0;
+                window.gamutRenderer.cameraSpinRate = 0;
+            }
+            else {
+                cameraSpinRate = 0.0025;
+                window.gamutRenderer.cameraSpinRate = 0.0025;
+                pauseToggle.innerHTML = "⏸"
+            }
+        });
+
         // Animation Loop for RGB Cube and HSL Cone
         var theta = 0;
-        var cameraSpinRate = 0.005;
+        var cameraSpinRate = 0.0025;
 
         function animate() {
             theta += cameraSpinRate;

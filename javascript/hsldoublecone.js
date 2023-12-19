@@ -6,6 +6,7 @@ hslScene.background = new THREE.Color("#dddddd");
 
 // Orbit
 const orbit = new THREE.OrbitControls(camera, renderer.domElement);
+orbit.maxDistance = 75;
 
 var currentShape = 'lines';
 var outlineObjects = [];
@@ -232,12 +233,12 @@ function updateHSL() {
 // Toggle shape button event listener
 function handleHSLShape(isShapeVisible) {
     if (isShapeVisible) {
-        shapeToggle.innerHTML = "Show Cross Section";
+        shapeToggle.innerHTML = "Show Wireframe";
         createHSLCone();
         cleanUpOutlines();
         currentShape = "cones";
     } else {
-        shapeToggle.innerHTML = "Show Shape";
+        shapeToggle.innerHTML = "Show Faces";
         hslScene.remove(topCone);
         hslScene.remove(bottomCone);
         drawOutLines();
