@@ -5,10 +5,11 @@ rgbScene.background = new THREE.Color("#dddddd");
 // Create Plane
 const planeGeometry = new THREE.CircleGeometry(longDiagonal / 2, 20);
 planeGeometry.rotateX(-Math.PI / 2);
-const planeMaterial = new THREE.MeshBasicMaterial({ depthWrite: false, color: "black", transparent: true, opacity: 0.25, side: THREE.DoubleSide });
+const planeMaterial = new THREE.MeshBasicMaterial({ depthWrite: true, color: "black", transparent: true, opacity: 0.25, side: THREE.DoubleSide });
 const plane = new THREE.Mesh(planeGeometry, planeMaterial);
 plane.position.y = 0.5 * longDiagonal;
 rgbScene.add(plane);
+plane.renderOrder = 1; 
 
 // Custom vertices
 var vertices = [
@@ -193,8 +194,9 @@ createColorCube = function () {
         {
             vertexColors: THREE.VertexColors,
             // side: THREE.DoubleSide, // in case we go inside the cube
+            depthWrite: false,
             transparent: true,
-            opacity: 0.8,
+            // opacity: 0.8,
         });
     var mesh = new THREE.Mesh(geom, material);
 
