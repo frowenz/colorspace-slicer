@@ -5,7 +5,7 @@ rgbScene.background = new THREE.Color("#dddddd");
 // Create Plane
 const planeGeometry = new THREE.CircleGeometry(longDiagonal / 2, 20);
 planeGeometry.rotateX(-Math.PI / 2);
-const planeMaterial = new THREE.MeshBasicMaterial({ color: "black", transparent: true, opacity: 0.25, side: THREE.DoubleSide });
+const planeMaterial = new THREE.MeshBasicMaterial({ depthWrite: false, color: "black", transparent: true, opacity: 0.25, side: THREE.DoubleSide });
 const plane = new THREE.Mesh(planeGeometry, planeMaterial);
 plane.position.y = 0.5 * longDiagonal;
 rgbScene.add(plane);

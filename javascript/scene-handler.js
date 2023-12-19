@@ -2,7 +2,7 @@
 
 // Initialization
 const camera = new THREE.PerspectiveCamera(25, 1, 1, 150);
-camera.maxDistance = 1;
+
 camera.position.set(0, 35, 0);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(350, 350);
