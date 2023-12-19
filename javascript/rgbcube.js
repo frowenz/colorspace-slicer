@@ -111,9 +111,9 @@ function drawIntersectionPoints() {
     const pointsMaterial = new THREE.PointsMaterial({ size: 1, color: "white" });
     const pointsObj = new THREE.Points(pointsOfIntersection, pointsMaterial);
     pointsObj.name = 'points';
-    rgbScene.add(pointsObj);
+    // rgbScene.add(pointsObj);
 
-    const linesMaterial = new THREE.LineBasicMaterial({ color: "black" });
+    const linesMaterial = new THREE.LineBasicMaterial({ linewidth: 10, color: "white" });
     const linesObj = new THREE.Line(sortedGeometry, linesMaterial);
     linesObj.name = 'lines';
     rgbScene.add(linesObj);

@@ -248,6 +248,7 @@ ColourAnalysis = (() => {
                         (this._camera.up = new THREE.Vector3(t.camera.up.x, t.camera.up.y, t.camera.up.z)),
                         this._scene.add(this._camera),
                         (this._controls = new THREE.OrbitControls(this._camera, this.container));
+                        this._controls.maxDistance = 15;
                 }
                 get camera() {
                     return this._camera;
